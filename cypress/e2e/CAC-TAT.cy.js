@@ -17,7 +17,8 @@ describe('Central de Atendimento ao Cliente TAT', () => {// test suit
     cy.get('#lastName').type('Santos')
     cy.get('#email').type('fernadosantos@gmail.com.br')
     cy.get('#open-text-area').type(longText, {delay: 0 })//delay objt
-    cy.get('button[type="submit"]').click()//seletor css - type
+    //cy.get('button[type="submit"]').click()//seletor css - type
+    cy.contains('button','Enviar').click()// 2 agrs : tag,texto contido tag
 
     //result
     cy.get('.success').should('be.visible')
@@ -30,7 +31,8 @@ describe('Central de Atendimento ao Cliente TAT', () => {// test suit
     cy.get('#lastName').type('Santos')
     cy.get('#email').type('fernadosantos@gmail,com.br')//, formatação invalida
     cy.get('#open-text-area').type('obrigada')//delay objt
-    cy.get('button[type="submit"]').click()//seletor css - type
+    //cy.get('button[type="submit"]').click()//seletor css - type
+    cy.contains('button','Enviar').click()//identifica elemento qdo nao tem como identificar unico a nao ser pelo texto
 
     //result
     cy.get('.error').should('be.visible')
@@ -52,7 +54,8 @@ describe('Central de Atendimento ao Cliente TAT', () => {// test suit
     cy.get('#open-text-area').type('teste')
     //checkbox
     cy.get('#phone-checkbox').click()
-    cy.get('button[type="submit"]').click()//seletor css - type
+    //cy.get('button[type="submit"]').click()//seletor css - type
+    cy.contains('button','Enviar').click()
    
     cy.get('.error').should('be.visible')
     
@@ -86,11 +89,12 @@ describe('Central de Atendimento ao Cliente TAT', () => {// test suit
    })
 
    it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', () => {
-    cy.get('button[type="submit"]').click()
+    //cy.get('button[type="submit"]').click()//botao com texto enviar
+    cy.contains('button','Enviar').click()
 
     cy.get('.error').should('be.visible')   
 })
-it.only('envia o formuário com sucesso usando um comando customizado', () => {
+it('envia o formuário com sucesso usando um comando customizado', () => {
 
   const data = { //obj
     firstName: 'Fernando',
@@ -104,6 +108,30 @@ it.only('envia o formuário com sucesso usando um comando customizado', () => {
   cy.get('.success').should('be.visible')
 
  })
+//texto, value ou indice, multipla escolha array
+
+it('seleciona um produto youtube pelo seu texto', () => {  
+  cy.get('#product')
+    .select('YouTube')//selecionado pelo texto/content
+    .should('have.value','youtube')//value ="youtube"
+})
+
+it('seleciona um produto Mentoria pelo seu valor', () => {  
+  cy.get('#product')
+    .select('mentoria')//value
+    .should('have.value','mentoria')//value ="mentoria"
+})
+it.only('seleciona um produto Blog pelo seu indice', () => {  
+  cy.get('#product')
+    .select(1)//indice 1 blog
+    .should('have.value','blog')//value ="blog"
+})
+
+it.only('seleciona um produto Mentoria pelo seu valor', () => {  
+  cy.get('#product')
+    .select('mentoria')//value
+    .should('have.value','mentoria')//value ="mentoria"
+})
 
 
   
