@@ -51,7 +51,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {// test suit
     cy.get('#email').type('fernadosantos@gmail,com.br')
     cy.get('#open-text-area').type('teste')
     //checkbox
-    cy.get('#phone-checkbox').click
+    cy.get('#phone-checkbox').click()
     cy.get('button[type="submit"]').click()//seletor css - type
    
     cy.get('.error').should('be.visible')
@@ -85,11 +85,25 @@ describe('Central de Atendimento ao Cliente TAT', () => {// test suit
       .should('have.value', '')
    })
 
-   it.only('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', () => {
+   it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', () => {
     cy.get('button[type="submit"]').click()
 
     cy.get('.error').should('be.visible')   
 })
+it.only('envia o formuário com sucesso usando um comando customizado', () => {
+
+  const data = { //obj
+    firstName: 'Fernando',
+    lastName:'Silva',
+    email:'fernadosilva@gmail.com',
+    text:'teste'
+    }
+
+  cy.fillMandatoryFieldsAndSubmit(data)//passa obj
+
+  cy.get('.success').should('be.visible')
+
+ })
 
 
   
