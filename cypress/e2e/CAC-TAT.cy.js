@@ -121,17 +121,33 @@ it('seleciona um produto Mentoria pelo seu valor', () => {
     .select('mentoria')//value
     .should('have.value','mentoria')//value ="mentoria"
 })
-it.only('seleciona um produto Blog pelo seu indice', () => {  
+it('seleciona um produto Blog pelo seu indice', () => {  
   cy.get('#product')
     .select(1)//indice 1 blog
     .should('have.value','blog')//value ="blog"
 })
 
-it.only('seleciona um produto Mentoria pelo seu valor', () => {  
-  cy.get('#product')
-    .select('mentoria')//value
-    .should('have.value','mentoria')//value ="mentoria"
+it('marca cada tipo de atendimento Feedback', () => {  
+  cy.get('input[type="radio"][value="feedback"]')
+    .check()
+    .should('be.checked')
 })
+//iterar array funcionalidade:.each(recebe arg função, que recebe cd elemento array cada iteração)
+it.only('marca cada tipo de atendimento ', () => {  
+  cy.get('input[type="radio"]')
+    .each((typeOfService)=> {//arg tipo de atendimento
+      cy.wrap(typeOfService)//empacota cada tipo de atendimento
+        .check()
+        .should('be.checked')
+    })
+
+
+
+})
+
+
+
+
 
 
   
