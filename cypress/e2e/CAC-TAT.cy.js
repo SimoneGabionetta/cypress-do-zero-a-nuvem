@@ -1,8 +1,7 @@
-describe('Central de Atendimento ao Cliente TAT', () => {// test suit
+describe('Central de Atendimento ao Cliente TAT', () => {
   beforeEach(() => {
     cy.visit('./src/index.html')
   })  
-  
 
   it('verifica o título da aplicação', () => {//test case : 2 args : 'string',arrow function
       //should=assertions
@@ -25,8 +24,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {// test suit
   })
 
   it('exibi mensagem de erro ao submeter o formulário com um email com formatação invalida',() => {
-    
-    //action
+        //action
     cy.get('#firstName').type('Fernando')
     cy.get('#lastName').type('Santos')
     cy.get('#email').type('fernadosantos@gmail,com.br')//, formatação invalida
@@ -53,7 +51,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {// test suit
     cy.get('#email').type('fernadosantos@gmail,com.br')
     cy.get('#open-text-area').type('teste')
     //checkbox
-    cy.get('#phone-checkbox').click()
+    cy.get('#phone-checkbox').check()//para checkbox usar check() em vez clique
     //cy.get('button[type="submit"]').click()//seletor css - type
     cy.contains('button','Enviar').click()
    
@@ -88,7 +86,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {// test suit
       .should('have.value', '')
    })
 
-   it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', () => {
+  it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', () => {
     //cy.get('button[type="submit"]').click()//botao com texto enviar
     cy.contains('button','Enviar').click()
 
@@ -133,17 +131,81 @@ it('marca cada tipo de atendimento Feedback', () => {
     .should('be.checked')
 })
 //iterar array funcionalidade:.each(recebe arg função, que recebe cd elemento array cada iteração)
-it.only('marca cada tipo de atendimento ', () => {  
+it('marca cada tipo de atendimento ', () => {  
   cy.get('input[type="radio"]')
     .each((typeOfService)=> {//arg tipo de atendimento
-      cy.wrap(typeOfService)//empacota cada tipo de atendimento
-        .check()
-        .should('be.checked')
-    })
-
-
-
+    cy.wrap(typeOfService)//empacota cada tipo 
+      .check()
+      .should('be.checked')
+  })
 })
+
+it('marca ambos checkboxes, depois desmarca o ultimo ',()=>{
+  cy.get('input[type="checkbox"]')
+    .check()//marca 1 ou + elementos
+    .should('be.checked')
+    .last()
+    .uncheck()
+    .should('not.be.checked')
+  })
+
+it('seleciona um arquivo da pasta fixtures',() => {
+    cy.get('#file-upload')
+      .selectFile('cypress/fixtures/example.json')//arg 'string' o arquivo
+      .should(input=>{//file input
+        expect(input[0].files[0].name).to.equal('example.json')
+        })
+
+  })
+//drag-and-drop:arrastar
+it('seleciona um arquivo simulando um drag-and-drop',() => {//2 agr-string arq e obj com propried
+    cy.get('#file-upload')
+      .selectFile('cypress/fixtures/example.json',{action:'drag-drop'})//arg 'string' o arquivo
+      .should(input=>{//file input
+        expect(input[0].files[0].name).to.equal('example.json')
+        })
+
+  })
+
+  it('seleciona um arquivo utilizando fixture para a qual foi dada um alias',() => {//2 agr-string arq e obj com propried
+    cy.fixture('example.json').as('sampleFile')//só nome arq
+    cy.get('#file-upload')
+      .selectFile('@sampleFile')//chama alias com @
+      .should(input=>{//file input
+        expect(input[0].files[0].name).to.equal('example.json')
+        })
+
+  })
+  it('verifica a politica de privacidade abre em outra aba sem necessidade de um click', () =>{
+    cy.contains('a', 'Política de Privacidade')//cy.contains: seletor mais especifico,= texto, 2 args tag e texto contido tag
+   
+      .should('have.attr', 'href', 'privacy.html')
+      .and ('have.attr', 'target', '_blank')//2 verf
+
+  })
+
+  //mesma aba
+  it('acessa a pagina de politica de privacidade,removendo o target e enato clicando no link', () =>{
+    cy.contains('a', 'Política de Privacidade')//tag,texto
+      .invoke('removeAttr','target')//função,attr que  quer remover
+      .click()
+      
+      cy.contains('h1','CAC-TAT- Política de Privacidade')//tag,texto
+        .should('be.visible')
+      
+  })
+  
+  
+  
+
+
+
+
+ 
+
+
+
+
 
 
 
@@ -151,9 +213,6 @@ it.only('marca cada tipo de atendimento ', () => {
 
 
   
-
-
-
 
 
 
