@@ -190,7 +190,7 @@ it('seleciona um arquivo simulando um drag-and-drop',() => {//2 agr-string arq e
       .invoke('removeAttr','target')//função,attr que  quer remover
       .click()
       
-      cy.contains('h1','CAC-TAT- Política de Privacidade')//tag,texto
+      cy.contains('h1','CAC TAT - Política de Privacidade')//tag,texto
         .should('be.visible')
       
   })
