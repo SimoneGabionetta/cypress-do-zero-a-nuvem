@@ -33,4 +33,5 @@ Run  `npm run test:mobile` to run the test in headless mode on mobile viewport.
 ## Support this project
 If you want to support this project, leave a ⭐ .
 
-This project was created with by [Simone Gabionetta](https://www.linkedin.com/in/smgabionetta/)
+This project was created with by [Simone Gabionetta
+](https://www.linkedin.com/in/smgabionetta/)
